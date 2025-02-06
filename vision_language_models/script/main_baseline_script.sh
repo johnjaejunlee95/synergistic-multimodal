@@ -1,0 +1,35 @@
+CUDA_VISIBLE_DEVICES=0,1,2,3 taskset --cpu-list 10-18,30-38,50-58,70-78 torchrun --nproc_per_node=4 ../main_baseline.py \
+--data_dir=/dataset/ImageNet \
+--test_dir=/dataset/ImageNet_OOD \
+--model=vit_base_patch32_224 \
+--workers=8 \
+--batch-size=256 \
+--epochs=300 \
+--weight-decay=5e-2 \
+--lr=1e-3 \
+--lam=0. \
+--drop-path=0.25 \
+--model-ema \
+--model-ema-decay=0.99992 \
+--opt-eps=1e-8 \
+--opt=adamw \
+--sched=cosine \
+--warmup-lr=1e-6 \
+--warmup-epochs=20 \
+--cooldown-epochs=10 \
+--patience-epochs=10 \
+--aa=rand-m9-mstd0.5-inc1 \
+--reprob=0.25 \
+--smoothing=0.1 \
+--mixup=0.8 \
+--cutmix=1.0 \
+--pin-mem \
+--mean 0.485 0.456 0.406  \
+--std 0.229 0.224 0.225 \
+--output=../output \
+--experiment=vit_b32 \
+--log-interval=100 \
+--clip-grad=1.0 \
+--amp \
+
+# all file paths need to be changed into your own paths
