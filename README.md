@@ -6,7 +6,7 @@ This is the official PyTorch implementation of our paper "Can One Modality Model
 > Jae-Jun Lee, Sung Whan Yoon  
 > **Accepted by: ICLR 2025**
 >
-> [arXiv: Upload Soon] [[ICLR 2025](https://openreview.net/pdf?id=5BXWhVbHAK)]
+> [[ICLR 2025](https://openreview.net/pdf?id=5BXWhVbHAK)]
 
 ## Installation
 
