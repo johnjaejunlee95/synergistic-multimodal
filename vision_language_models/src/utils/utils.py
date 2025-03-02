@@ -63,6 +63,8 @@ def text_global_pool(x, text: Optional[torch.Tensor] = None, pool_type: str = 'a
 
 
 class AmpScaler:
+    state_dict_key = "amp_scaler"
+    
     def __init__(self):
         self._scaler = torch.cuda.amp.GradScaler()
         self.gradient = None
