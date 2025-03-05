@@ -89,7 +89,10 @@ def main(args, args_text):
         params.requires_grad = False
     
     args.hidden_size = language_model.config.hidden_size
-    model = Vision_Transformers(args)
+    if 'resnet' in args.model:
+        model = ResNet50(num_classes=args.num_classes, feature_dim=args.hidden_size)
+    else:
+        model = Vision_Transformers(args)
     
     if args.local_rank == 0:
         _logger.info(

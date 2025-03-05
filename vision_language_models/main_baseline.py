@@ -94,7 +94,8 @@ def main(args, args_text):
         bn_momentum=args.bn_momentum,
         bn_eps=args.bn_eps,
         scriptable=args.torchscript,
-        checkpoint_path=args.resume)
+        checkpoint_path=args.resume
+    )
     
     if args.local_rank == 0:
         _logger.info(
@@ -280,7 +281,6 @@ def main(args, args_text):
         assert num_aug_splits > 1  # JSD only valid with aug splits set
         train_loss_fn = JsdCrossEntropy(num_splits=num_aug_splits, smoothing=args.smoothing)
     elif mixup_active:
-        # smoothing is handled with mixup target transform
         if args.bce_loss:
             train_loss_fn = BinaryCrossEntropy(target_threshold=args.bce_target_thresh)
         else:
@@ -332,7 +332,7 @@ def main(args, args_text):
                     _logger.info("Distributing BatchNorm running means and vars")
                 distribute_bn(model, args.world_size, args.dist_bn == 'reduce')
             
-            eval_metrics = validate(args, model, loader_eval, validate_loss_fn,  amp_autocast=amp_autocast, logger=_logger)
+            eval_metrics = validate(args, model, loader_eval, validate_loss_fn, logger=_logger)
 
             if model_ema is not None and not args.model_ema_force_cpu:
                 if args.distributed and args.dist_bn in ('broadcast', 'reduce'):
@@ -344,9 +344,7 @@ def main(args, args_text):
                 lr_scheduler.step(epoch + 1, eval_metrics[eval_metric])
 
             if output_dir is not None:
-                update_summary(
-                    epoch, train_metrics, eval_metrics, os.path.join(output_dir, 'summary.csv'),
-                    write_header=best_metric is None)
+                update_summary(epoch, train_metrics, eval_metrics, os.path.join(output_dir, 'summary.csv'), write_header=best_metric is None)
 
             if saver is not None and args.local_rank == 0:
                 save_metric = eval_metrics[eval_metric]
